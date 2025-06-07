@@ -1,0 +1,444 @@
++ export RAY_TMPDIR=/home/yuanyang/tmp/
++ RAY_TMPDIR=/home/yuanyang/tmp/
++ export TMPDIR=/home/yuanyang/tmp
++ TMPDIR=/home/yuanyang/tmp
++ export HYDRA_FULL_ERROR=1
++ HYDRA_FULL_ERROR=1
++ export PYTHONPATH=/home/yuanyang/CS291A/scripts:
++ PYTHONPATH=/home/yuanyang/CS291A/scripts:
++ export CUDA_DEVICE_ORDER=PCI_BUS_ID
++ CUDA_DEVICE_ORDER=PCI_BUS_ID
++ export CUDA_VISIBLE_DEVICES=0,1
++ CUDA_VISIBLE_DEVICES=0,1
++ export RAY_ADDRESS=127.0.0.1:6378
++ RAY_ADDRESS=127.0.0.1:6378
++ cd /home/yuanyang/CS291A/verl
++ CUDA_VISIBLE_DEVICES=0,1
++ ray start --head --port=6378 --num-gpus=2
+2025-05-28 13:34:29,388	INFO usage_lib.py:472 -- Usage stats collection is enabled. To disable this, add `--disable-usage-stats` to the command that starts the cluster, or run the following command: `ray disable-usage-stats` before starting the cluster. See https://docs.ray.io/en/master/cluster/usage-stats.html for more details.
+2025-05-28 13:34:29,389	INFO scripts.py:971 -- [37mLocal node IP[39m: [1m10.145.21.48[22m
+Traceback (most recent call last):
+  File "/home/yuanyang/anaconda3/envs/verl/bin/ray", line 8, in <module>
+    sys.exit(main())
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/ray/scripts/scripts.py", line 2800, in main
+    return cli()
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/click/core.py", line 1161, in __call__
+    return self.main(*args, **kwargs)
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/click/core.py", line 1082, in main
+    rv = self.invoke(ctx)
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/click/core.py", line 1697, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/click/core.py", line 1443, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/click/core.py", line 788, in invoke
+    return __callback(*args, **kwargs)
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/ray/autoscaler/_private/cli_logger.py", line 823, in wrapper
+    return f(*args, **kwargs)
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/ray/scripts/scripts.py", line 997, in start
+    node = ray._private.node.Node(
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/ray/_private/node.py", line 362, in __init__
+    self.start_head_processes()
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/ray/_private/node.py", line 1447, in start_head_processes
+    self._write_cluster_info_to_kv()
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/ray/_private/node.py", line 1402, in _write_cluster_info_to_kv
+    assert curr_val == self._session_name.encode("utf-8"), (
+AssertionError: Session name session_2025-05-28_13-34-29_389507_282082 does not match persisted value b'session_2025-05-26_13-19-31_611308_2693597'. Perhaps there was an error connecting to Redis.
++ CUDA_VISIBLE_DEVICES=0,1
++ python3 -m verl.trainer.main_ppo data.train_files=/home/yuanyang/CS291A/data/parquet/file_level/433-enriched_claude3-7_train.parquet data.val_files=/home/yuanyang/CS291A/data/parquet/file_level/433-enriched_claude3-7_val.parquet data.train_batch_size=4 data.max_prompt_length=32768 data.max_response_length=2048 actor_rollout_ref.model.path=secmlr/SWE-BENCH-433-enriched-set-claude-3in1-localization-with-reasoning_qwen_code_0.5b_433_enriched actor_rollout_ref.actor.optim.lr=1e-6 actor_rollout_ref.model.use_remove_padding=True actor_rollout_ref.actor.ppo_mini_batch_size=4 actor_rollout_ref.actor.ppo_micro_batch_size_per_gpu=1 actor_rollout_ref.actor.fsdp_config.param_offload=True actor_rollout_ref.actor.fsdp_config.optimizer_offload=True actor_rollout_ref.model.enable_gradient_checkpointing=True actor_rollout_ref.rollout.log_prob_micro_batch_size_per_gpu=1 actor_rollout_ref.rollout.tensor_model_parallel_size=1 actor_rollout_ref.rollout.name=vllm actor_rollout_ref.rollout.gpu_memory_utilization=0.9 actor_rollout_ref.rollout.max_num_batched_tokens=35000 actor_rollout_ref.ref.log_prob_micro_batch_size_per_gpu=1 actor_rollout_ref.ref.fsdp_config.param_offload=True critic.optim.lr=1e-5 critic.model.use_remove_padding=True critic.model.path=secmlr/SWE-BENCH-433-enriched-set-claude-3in1-localization-with-reasoning_qwen_code_0.5b_433_enriched critic.model.enable_gradient_checkpointing=True critic.ppo_micro_batch_size_per_gpu=1 critic.model.fsdp_config.param_offload=True critic.model.fsdp_config.optimizer_offload=True algorithm.kl_ctrl.kl_coef=0.001 trainer.critic_warmup=0 'trainer.logger=[console,wandb]' trainer.project_name=verl_CS291A trainer.experiment_name=qwen-0.5b__433-enriched_claude3-7__file_level__finetuned__complex trainer.n_gpus_per_node=2 trainer.nnodes=1 trainer.save_freq=100 trainer.test_freq=1 trainer.total_epochs=15 custom_reward_function.path=/home/yuanyang/CS291A/custom_reward.py custom_reward_function.name=compute_score_complicated reward_model.enable=False
+2025-05-28 13:34:34,370	INFO worker.py:1554 -- Using address 127.0.0.1:6378 set in the environment variable RAY_ADDRESS
+2025-05-28 13:34:34,370	INFO worker.py:1694 -- Connecting to existing Ray cluster at address: 10.145.21.48:6378...
+2025-05-28 13:34:34,383	INFO worker.py:1879 -- Connected to Ray cluster. View the dashboard at [1m[32m127.0.0.1:8265 [39m[22m
+[33m(raylet)[0m [2025-05-28 13:34:38,790 E 2694541 2694573] (raylet) file_system_monitor.cc:116: /home/yuanyang/tmp/ray/session_2025-05-26_13-19-31_611308_2693597 is over 95% full, available space: 105.525 GB; capacity: 6837.7 GB. Object creation will fail if spilling is required.
+[36m(TaskRunner pid=282528)[0m {'actor_rollout_ref': {'actor': {'checkpoint': {'contents': ['model',
+[36m(TaskRunner pid=282528)[0m                                                              'optimizer',
+[36m(TaskRunner pid=282528)[0m                                                              'extra']},
+[36m(TaskRunner pid=282528)[0m                                  'clip_ratio': 0.2,
+[36m(TaskRunner pid=282528)[0m                                  'clip_ratio_c': 3.0,
+[36m(TaskRunner pid=282528)[0m                                  'clip_ratio_high': 0.2,
+[36m(TaskRunner pid=282528)[0m                                  'clip_ratio_low': 0.2,
+[36m(TaskRunner pid=282528)[0m                                  'entropy_coeff': 0,
+[36m(TaskRunner pid=282528)[0m                                  'fsdp_config': {'fsdp_size': -1,
+[36m(TaskRunner pid=282528)[0m                                                  'offload_policy': False,
+[36m(TaskRunner pid=282528)[0m                                                  'optimizer_offload': True,
+[36m(TaskRunner pid=282528)[0m                                                  'param_offload': True,
+[36m(TaskRunner pid=282528)[0m                                                  'reshard_after_forward': True,
+[36m(TaskRunner pid=282528)[0m                                                  'wrap_policy': {'min_num_params': 0}},
+[36m(TaskRunner pid=282528)[0m                                  'grad_clip': 1.0,
+[36m(TaskRunner pid=282528)[0m                                  'kl_loss_coef': 0.001,
+[36m(TaskRunner pid=282528)[0m                                  'kl_loss_type': 'low_var_kl',
+[36m(TaskRunner pid=282528)[0m                                  'loss_agg_mode': 'token-mean',
+[36m(TaskRunner pid=282528)[0m                                  'optim': {'lr': 1e-06,
+[36m(TaskRunner pid=282528)[0m                                            'lr_warmup_steps': -1,
+[36m(TaskRunner pid=282528)[0m                                            'lr_warmup_steps_ratio': 0.0,
+[36m(TaskRunner pid=282528)[0m                                            'min_lr_ratio': None,
+[36m(TaskRunner pid=282528)[0m                                            'total_training_steps': -1,
+[36m(TaskRunner pid=282528)[0m                                            'warmup_style': 'constant',
+[36m(TaskRunner pid=282528)[0m                                            'weight_decay': 0.01},
+[36m(TaskRunner pid=282528)[0m                                  'ppo_epochs': 1,
+[36m(TaskRunner pid=282528)[0m                                  'ppo_max_token_len_per_gpu': 16384,
+[36m(TaskRunner pid=282528)[0m                                  'ppo_micro_batch_size': None,
+[36m(TaskRunner pid=282528)[0m                                  'ppo_micro_batch_size_per_gpu': 1,
+[36m(TaskRunner pid=282528)[0m                                  'ppo_mini_batch_size': 4,
+[36m(TaskRunner pid=282528)[0m                                  'shuffle': False,
+[36m(TaskRunner pid=282528)[0m                                  'strategy': 'fsdp',
+[36m(TaskRunner pid=282528)[0m                                  'ulysses_sequence_parallel_size': 1,
+[36m(TaskRunner pid=282528)[0m                                  'use_dynamic_bsz': False,
+[36m(TaskRunner pid=282528)[0m                                  'use_kl_loss': False,
+[36m(TaskRunner pid=282528)[0m                                  'use_torch_compile': True},
+[36m(TaskRunner pid=282528)[0m                        'hybrid_engine': True,
+[36m(TaskRunner pid=282528)[0m                        'model': {'enable_gradient_checkpointing': True,
+[36m(TaskRunner pid=282528)[0m                                  'external_lib': None,
+[36m(TaskRunner pid=282528)[0m                                  'override_config': {},
+[36m(TaskRunner pid=282528)[0m                                  'path': 'secmlr/SWE-BENCH-433-enriched-set-claude-3in1-localization-with-reasoning_qwen_code_0.5b_433_enriched',
+[36m(TaskRunner pid=282528)[0m                                  'use_liger': False,
+[36m(TaskRunner pid=282528)[0m                                  'use_remove_padding': True},
+[36m(TaskRunner pid=282528)[0m                        'ref': {'fsdp_config': {'param_offload': True,
+[36m(TaskRunner pid=282528)[0m                                                'reshard_after_forward': True,
+[36m(TaskRunner pid=282528)[0m                                                'wrap_policy': {'min_num_params': 0}},
+[36m(TaskRunner pid=282528)[0m                                'log_prob_max_token_len_per_gpu': 16384,
+[36m(TaskRunner pid=282528)[0m                                'log_prob_micro_batch_size': None,
+[36m(TaskRunner pid=282528)[0m                                'log_prob_micro_batch_size_per_gpu': 1,
+[36m(TaskRunner pid=282528)[0m                                'log_prob_use_dynamic_bsz': False,
+[36m(TaskRunner pid=282528)[0m                                'strategy': 'fsdp',
+[36m(TaskRunner pid=282528)[0m                                'ulysses_sequence_parallel_size': 1,
+[36m(TaskRunner pid=282528)[0m                                'use_torch_compile': True},
+[36m(TaskRunner pid=282528)[0m                        'rollout': {'chat_scheduler': None,
+[36m(TaskRunner pid=282528)[0m                                    'disable_log_stats': True,
+[36m(TaskRunner pid=282528)[0m                                    'do_sample': True,
+[36m(TaskRunner pid=282528)[0m                                    'dtype': 'bfloat16',
+[36m(TaskRunner pid=282528)[0m                                    'enable_chunked_prefill': True,
+[36m(TaskRunner pid=282528)[0m                                    'enforce_eager': True,
+[36m(TaskRunner pid=282528)[0m                                    'engine_kwargs': {'swap_space': None},
+[36m(TaskRunner pid=282528)[0m                                    'free_cache_engine': True,
+[36m(TaskRunner pid=282528)[0m                                    'gpu_memory_utilization': 0.9,
+[36m(TaskRunner pid=282528)[0m                                    'ignore_eos': False,
+[36m(TaskRunner pid=282528)[0m                                    'load_format': 'dummy_dtensor',
+[36m(TaskRunner pid=282528)[0m                                    'log_prob_max_token_len_per_gpu': 16384,
+[36m(TaskRunner pid=282528)[0m                                    'log_prob_micro_batch_size': None,
+[36m(TaskRunner pid=282528)[0m                                    'log_prob_micro_batch_size_per_gpu': 1,
+[36m(TaskRunner pid=282528)[0m                                    'log_prob_use_dynamic_bsz': False,
+[36m(TaskRunner pid=282528)[0m                                    'max_model_len': None,
+[36m(TaskRunner pid=282528)[0m                                    'max_num_batched_tokens': 35000,
+[36m(TaskRunner pid=282528)[0m                                    'max_num_seqs': 1024,
+[36m(TaskRunner pid=282528)[0m                                    'mode': 'sync',
+[36m(TaskRunner pid=282528)[0m                                    'multi_turn': {'enable': False,
+[36m(TaskRunner pid=282528)[0m                                                   'format': 'chatml',
+[36m(TaskRunner pid=282528)[0m                                                   'max_turns': None,
+[36m(TaskRunner pid=282528)[0m                                                   'tool_config_path': None},
+[36m(TaskRunner pid=282528)[0m                                    'n': 1,
+[36m(TaskRunner pid=282528)[0m                                    'name': 'vllm',
+[36m(TaskRunner pid=282528)[0m                                    'prompt_length': 32768,
+[36m(TaskRunner pid=282528)[0m                                    'response_length': 2048,
+[36m(TaskRunner pid=282528)[0m                                    'temperature': 1.0,
+[36m(TaskRunner pid=282528)[0m                                    'tensor_model_parallel_size': 1,
+[36m(TaskRunner pid=282528)[0m                                    'top_k': -1,
+[36m(TaskRunner pid=282528)[0m                                    'top_p': 1,
+[36m(TaskRunner pid=282528)[0m                                    'use_fire_sampling': False,
+[36m(TaskRunner pid=282528)[0m                                    'val_kwargs': {'do_sample': False,
+[36m(TaskRunner pid=282528)[0m                                                   'n': 1,
+[36m(TaskRunner pid=282528)[0m                                                   'temperature': 0,
+[36m(TaskRunner pid=282528)[0m                                                   'top_k': -1,
+[36m(TaskRunner pid=282528)[0m                                                   'top_p': 1.0}}},
+[36m(TaskRunner pid=282528)[0m  'algorithm': {'adv_estimator': 'gae',
+[36m(TaskRunner pid=282528)[0m                'gamma': 1.0,
+[36m(TaskRunner pid=282528)[0m                'kl_ctrl': {'horizon': 10000,
+[36m(TaskRunner pid=282528)[0m                            'kl_coef': 0.001,
+[36m(TaskRunner pid=282528)[0m                            'target_kl': 0.1,
+[36m(TaskRunner pid=282528)[0m                            'type': 'fixed'},
+[36m(TaskRunner pid=282528)[0m                'kl_penalty': 'kl',
+[36m(TaskRunner pid=282528)[0m                'lam': 1.0,
+[36m(TaskRunner pid=282528)[0m                'norm_adv_by_std_in_grpo': True,
+[36m(TaskRunner pid=282528)[0m                'use_kl_in_reward': False},
+[36m(TaskRunner pid=282528)[0m  'critic': {'checkpoint': {'contents': ['model', 'optimizer', 'extra']},
+[36m(TaskRunner pid=282528)[0m             'cliprange_value': 0.5,
+[36m(TaskRunner pid=282528)[0m             'forward_max_token_len_per_gpu': 32768,
+[36m(TaskRunner pid=282528)[0m             'forward_micro_batch_size': None,
+[36m(TaskRunner pid=282528)[0m             'forward_micro_batch_size_per_gpu': 1,
+[36m(TaskRunner pid=282528)[0m             'grad_clip': 1.0,
+[36m(TaskRunner pid=282528)[0m             'model': {'enable_gradient_checkpointing': True,
+[36m(TaskRunner pid=282528)[0m                       'external_lib': None,
+[36m(TaskRunner pid=282528)[0m                       'fsdp_config': {'fsdp_size': -1,
+[36m(TaskRunner pid=282528)[0m                                       'offload_policy': False,
+[36m(TaskRunner pid=282528)[0m                                       'optimizer_offload': True,
+[36m(TaskRunner pid=282528)[0m                                       'param_offload': True,
+[36m(TaskRunner pid=282528)[0m                                       'reshard_after_forward': True,
+[36m(TaskRunner pid=282528)[0m                                       'wrap_policy': {'min_num_params': 0}},
+[36m(TaskRunner pid=282528)[0m                       'override_config': {},
+[36m(TaskRunner pid=282528)[0m                       'path': 'secmlr/SWE-BENCH-433-enriched-set-claude-3in1-localization-with-reasoning_qwen_code_0.5b_433_enriched',
+[36m(TaskRunner pid=282528)[0m                       'tokenizer_path': 'secmlr/SWE-BENCH-433-enriched-set-claude-3in1-localization-with-reasoning_qwen_code_0.5b_433_enriched',
+[36m(TaskRunner pid=282528)[0m                       'use_remove_padding': True},
+[36m(TaskRunner pid=282528)[0m             'optim': {'lr': 1e-05,
+[36m(TaskRunner pid=282528)[0m                       'lr_warmup_steps_ratio': 0.0,
+[36m(TaskRunner pid=282528)[0m                       'min_lr_ratio': None,
+[36m(TaskRunner pid=282528)[0m                       'total_training_steps': -1,
+[36m(TaskRunner pid=282528)[0m                       'warmup_style': 'constant',
+[36m(TaskRunner pid=282528)[0m                       'weight_decay': 0.01},
+[36m(TaskRunner pid=282528)[0m             'ppo_epochs': 1,
+[36m(TaskRunner pid=282528)[0m             'ppo_max_token_len_per_gpu': 32768,
+[36m(TaskRunner pid=282528)[0m             'ppo_micro_batch_size': None,
+[36m(TaskRunner pid=282528)[0m             'ppo_micro_batch_size_per_gpu': 1,
+[36m(TaskRunner pid=282528)[0m             'ppo_mini_batch_size': 4,
+[36m(TaskRunner pid=282528)[0m             'rollout_n': 1,
+[36m(TaskRunner pid=282528)[0m             'shuffle': False,
+[36m(TaskRunner pid=282528)[0m             'strategy': 'fsdp',
+[36m(TaskRunner pid=282528)[0m             'ulysses_sequence_parallel_size': 1,
+[36m(TaskRunner pid=282528)[0m             'use_dynamic_bsz': False},
+[36m(TaskRunner pid=282528)[0m  'custom_reward_function': {'name': 'compute_score_complicated',
+[36m(TaskRunner pid=282528)[0m                             'path': '/home/yuanyang/CS291A/custom_reward.py'},
+[36m(TaskRunner pid=282528)[0m  'data': {'custom_cls': {'name': None, 'path': None},
+[36m(TaskRunner pid=282528)[0m           'filter_overlong_prompts': False,
+[36m(TaskRunner pid=282528)[0m           'filter_overlong_prompts_workers': 1,
+[36m(TaskRunner pid=282528)[0m           'image_key': 'images',
+[36m(TaskRunner pid=282528)[0m           'max_prompt_length': 32768,
+[36m(TaskRunner pid=282528)[0m           'max_response_length': 2048,
+[36m(TaskRunner pid=282528)[0m           'prompt_key': 'prompt',
+[36m(TaskRunner pid=282528)[0m           'return_raw_chat': False,
+[36m(TaskRunner pid=282528)[0m           'return_raw_input_ids': False,
+[36m(TaskRunner pid=282528)[0m           'reward_fn_key': 'data_source',
+[36m(TaskRunner pid=282528)[0m           'shuffle': True,
+[36m(TaskRunner pid=282528)[0m           'tokenizer': None,
+[36m(TaskRunner pid=282528)[0m           'train_batch_size': 4,
+[36m(TaskRunner pid=282528)[0m           'train_files': '/home/yuanyang/CS291A/data/parquet/file_level/433-enriched_claude3-7_train.parquet',
+[36m(TaskRunner pid=282528)[0m           'truncation': 'error',
+[36m(TaskRunner pid=282528)[0m           'val_batch_size': None,
+[36m(TaskRunner pid=282528)[0m           'val_files': '/home/yuanyang/CS291A/data/parquet/file_level/433-enriched_claude3-7_val.parquet',
+[36m(TaskRunner pid=282528)[0m           'video_key': 'videos'},
+[36m(TaskRunner pid=282528)[0m  'ray_init': {'num_cpus': None},
+[36m(TaskRunner pid=282528)[0m  'reward_model': {'enable': False,
+[36m(TaskRunner pid=282528)[0m                   'forward_max_token_len_per_gpu': 32768,
+[36m(TaskRunner pid=282528)[0m                   'launch_reward_fn_async': False,
+[36m(TaskRunner pid=282528)[0m                   'max_length': None,
+[36m(TaskRunner pid=282528)[0m                   'micro_batch_size': None,
+[36m(TaskRunner pid=282528)[0m                   'micro_batch_size_per_gpu': None,
+[36m(TaskRunner pid=282528)[0m                   'model': {'external_lib': None,
+[36m(TaskRunner pid=282528)[0m                             'fsdp_config': {'fsdp_size': -1,
+[36m(TaskRunner pid=282528)[0m                                             'param_offload': False,
+[36m(TaskRunner pid=282528)[0m                                             'reshard_after_forward': True,
+[36m(TaskRunner pid=282528)[0m                                             'wrap_policy': {'min_num_params': 0}},
+[36m(TaskRunner pid=282528)[0m                             'input_tokenizer': 'secmlr/SWE-BENCH-433-enriched-set-claude-3in1-localization-with-reasoning_qwen_code_0.5b_433_enriched',
+[36m(TaskRunner pid=282528)[0m                             'path': '~/models/FsfairX-LLaMA3-RM-v0.1',
+[36m(TaskRunner pid=282528)[0m                             'use_remove_padding': False},
+[36m(TaskRunner pid=282528)[0m                   'reward_manager': 'naive',
+[36m(TaskRunner pid=282528)[0m                   'strategy': 'fsdp',
+[36m(TaskRunner pid=282528)[0m                   'ulysses_sequence_parallel_size': 1,
+[36m(TaskRunner pid=282528)[0m                   'use_dynamic_bsz': False},
+[36m(TaskRunner pid=282528)[0m  'trainer': {'balance_batch': True,
+[36m(TaskRunner pid=282528)[0m              'critic_warmup': 0,
+[36m(TaskRunner pid=282528)[0m              'default_hdfs_dir': None,
+[36m(TaskRunner pid=282528)[0m              'default_local_dir': 'checkpoints/verl_CS291A/qwen-0.5b__433-enriched_claude3-7__file_level__finetuned__complex',
+[36m(TaskRunner pid=282528)[0m              'del_local_ckpt_after_load': False,
+[36m(TaskRunner pid=282528)[0m DeprecationWarning: `ray.state.available_resources_per_node` is a private attribute and access will be removed in a future Ray version.
+[36m(TaskRunner pid=282528)[0m WARNING:2025-05-28 13:34:43,143:Waiting for register center actor BwC9zt_register_center to be ready. Elapsed time: 0 seconds out of 300 seconds.
+[33m(raylet)[0m [2025-05-28 13:34:48,796 E 2694541 2694573] (raylet) file_system_monitor.cc:116: /home/yuanyang/tmp/ray/session_2025-05-26_13-19-31_611308_2693597 is over 95% full, available space: 105.524 GB; capacity: 6837.7 GB. Object creation will fail if spilling is required.
+[36m(WorkerDict pid=283226)[0m Flash Attention 2.0 only supports torch.float16 and torch.bfloat16 dtypes, but the current dype in Qwen2ForTokenClassification is torch.float32. You should run training or inference using Automatic Mixed-Precision via the `with torch.autocast(device_type='torch_device'):` decorator, or load the model with the `torch_dtype` argument. Example: `model = AutoModel.from_pretrained("openai/whisper-tiny", attn_implementation="flash_attention_2", torch_dtype=torch.float16)`
+[36m(WorkerDict pid=283226)[0m You are attempting to use Flash Attention 2.0 with a model not initialized on GPU. Make sure to move the model to GPU after initializing it on CPU with `model.to('cuda')`.
+[36m(WorkerDict pid=283226)[0m Some weights of Qwen2ForTokenClassification were not initialized from the model checkpoint at secmlr/SWE-BENCH-433-enriched-set-claude-3in1-localization-with-reasoning_qwen_code_0.5b_433_enriched and are newly initialized: ['score.bias', 'score.weight']
+[36m(WorkerDict pid=283226)[0m You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[33m(raylet)[0m [2025-05-28 13:34:58,802 E 2694541 2694573] (raylet) file_system_monitor.cc:116: /home/yuanyang/tmp/ray/session_2025-05-26_13-19-31_611308_2693597 is over 95% full, available space: 105.524 GB; capacity: 6837.7 GB. Object creation will fail if spilling is required.
+[36m(WorkerDict pid=283226)[0m Flash Attention 2.0 only supports torch.float16 and torch.bfloat16 dtypes, but the current dype in Qwen2ForCausalLM is torch.float32. You should run training or inference using Automatic Mixed-Precision via the `with torch.autocast(device_type='torch_device'):` decorator, or load the model with the `torch_dtype` argument. Example: `model = AutoModel.from_pretrained("openai/whisper-tiny", attn_implementation="flash_attention_2", torch_dtype=torch.float16)`[32m [repeated 3x across cluster][0m
+[36m(WorkerDict pid=282987)[0m You are attempting to use Flash Attention 2.0 with a model not initialized on GPU. Make sure to move the model to GPU after initializing it on CPU with `model.to('cuda')`.
+[36m(WorkerDict pid=282987)[0m Some weights of Qwen2ForTokenClassification were not initialized from the model checkpoint at secmlr/SWE-BENCH-433-enriched-set-claude-3in1-localization-with-reasoning_qwen_code_0.5b_433_enriched and are newly initialized: ['score.bias', 'score.weight']
+[36m(WorkerDict pid=282987)[0m You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[33m(raylet)[0m [2025-05-28 13:35:08,809 E 2694541 2694573] (raylet) file_system_monitor.cc:116: /home/yuanyang/tmp/ray/session_2025-05-26_13-19-31_611308_2693597 is over 95% full, available space: 105.523 GB; capacity: 6837.7 GB. Object creation will fail if spilling is required.
+[36m(TaskRunner pid=282528)[0m              'experiment_name': 'qwen-0.5b__433-enriched_claude3-7__file_level__finetuned__complex',
+[36m(TaskRunner pid=282528)[0m              'log_val_generations': 0,
+[36m(TaskRunner pid=282528)[0m              'logger': ['console', 'wandb'],
+[36m(TaskRunner pid=282528)[0m              'max_actor_ckpt_to_keep': None,
+[36m(TaskRunner pid=282528)[0m              'max_critic_ckpt_to_keep': None,
+[36m(TaskRunner pid=282528)[0m              'n_gpus_per_node': 2,
+[36m(TaskRunner pid=282528)[0m              'nnodes': 1,
+[36m(TaskRunner pid=282528)[0m              'project_name': 'verl_CS291A',
+[36m(TaskRunner pid=282528)[0m              'ray_wait_register_center_timeout': 300,
+[36m(TaskRunner pid=282528)[0m              'resume_from_path': None,
+[36m(TaskRunner pid=282528)[0m              'resume_mode': 'auto',
+[36m(TaskRunner pid=282528)[0m              'rollout_data_dir': None,
+[36m(TaskRunner pid=282528)[0m              'save_freq': 100,
+[36m(TaskRunner pid=282528)[0m              'test_freq': 1,
+[36m(TaskRunner pid=282528)[0m              'total_epochs': 15,
+[36m(TaskRunner pid=282528)[0m              'total_training_steps': None,
+[36m(TaskRunner pid=282528)[0m              'val_before_train': True,
+[36m(TaskRunner pid=282528)[0m              'validation_data_dir': None}}
+[36m(TaskRunner pid=282528)[0m using customized reward function 'compute_score_complicated' from '/home/yuanyang/CS291A/custom_reward.py'
+[36m(TaskRunner pid=282528)[0m using customized reward function 'compute_score_complicated' from '/home/yuanyang/CS291A/custom_reward.py'
+[36m(TaskRunner pid=282528)[0m Using dataset class: RLHFDataset
+[36m(TaskRunner pid=282528)[0m dataset len: 399
+[36m(TaskRunner pid=282528)[0m Using dataset class: RLHFDataset
+[36m(TaskRunner pid=282528)[0m dataset len: 100
+[36m(TaskRunner pid=282528)[0m [validate_config] All configuration checks passed successfully!
+[36m(TaskRunner pid=282528)[0m Size of train dataloader: 99, Size of val dataloader: 1
+[36m(TaskRunner pid=282528)[0m Total training steps: 1485
+[36m(TaskRunner pid=282528)[0m colocated worker base class <class 'verl.single_controller.base.worker.Worker'>
+[36m(WorkerDict pid=282987)[0m Critic overriding config {'bos_token_id': None, 'eos_token_id': 151645, 'pad_token_id': 151643}
+[36m(WorkerDict pid=283226)[0m Monkey patch _flash_attention_forward in transformers.integrations.flash_attention
+[36m(WorkerDict pid=282987)[0m Qwen2ForTokenClassification contains 494.03M parameters
+[36m(WorkerDict pid=282987)[0m Before critic FSDP, memory allocated (GB): 0.00, memory reserved (GB): 0.00, device memory used/total (GB): 71.23/79.14
+[36m(WorkerDict pid=282987)[0m NCCL version 2.21.5+cuda12.4
+[36m(WorkerDict pid=282987)[0m After critic FSDP, memory allocated (GB): 0.92, memory reserved (GB): 2.67, device memory used/total (GB): 74.18/79.14
+[36m(WorkerDict pid=282987)[0m Total steps: 1485, num_warmup_steps: 0
+[36m(WorkerDict pid=282987)[0m Critic use_remove_padding=True
+[36m(WorkerDict pid=282987)[0m Model config after override: Qwen2Config {
+[36m(WorkerDict pid=282987)[0m   "architectures": [
+[36m(WorkerDict pid=282987)[0m     "Qwen2ForCausalLM"
+[36m(WorkerDict pid=282987)[0m   ],
+[36m(WorkerDict pid=282987)[0m   "attention_dropout": 0.0,
+[36m(WorkerDict pid=282987)[0m   "eos_token_id": 151645,
+[36m(WorkerDict pid=282987)[0m   "hidden_act": "silu",
+[36m(WorkerDict pid=282987)[0m   "hidden_size": 896,
+[36m(WorkerDict pid=282987)[0m   "initializer_range": 0.02,
+[36m(WorkerDict pid=282987)[0m   "intermediate_size": 4864,
+[36m(WorkerDict pid=282987)[0m   "max_position_embeddings": 78000,
+[36m(WorkerDict pid=282987)[0m   "max_window_layers": 24,
+[36m(WorkerDict pid=282987)[0m   "model_type": "qwen2",
+[36m(WorkerDict pid=282987)[0m   "num_attention_heads": 14,
+[36m(WorkerDict pid=282987)[0m   "num_hidden_layers": 24,
+[36m(WorkerDict pid=282987)[0m   "num_key_value_heads": 2,
+[36m(WorkerDict pid=282987)[0m   "pad_token_id": 151643,
+[36m(WorkerDict pid=282987)[0m   "rms_norm_eps": 1e-06,
+[36m(WorkerDict pid=282987)[0m   "rope_scaling": {
+[36m(WorkerDict pid=282987)[0m     "factor": 4.0,
+[36m(WorkerDict pid=282987)[0m     "original_max_position_embeddings": 78000,
+[36m(WorkerDict pid=282987)[0m     "rope_type": "yarn",
+[36m(WorkerDict pid=282987)[0m     "type": "yarn"
+[36m(WorkerDict pid=282987)[0m   },
+[36m(WorkerDict pid=282987)[0m   "rope_theta": 1000000.0,
+[36m(WorkerDict pid=282987)[0m   "sliding_window": 32768,
+[36m(WorkerDict pid=282987)[0m   "tie_word_embeddings": true,
+[36m(WorkerDict pid=282987)[0m   "torch_dtype": "bfloat16",
+[36m(WorkerDict pid=282987)[0m   "transformers_version": "4.52.1",
+[36m(WorkerDict pid=282987)[0m   "use_cache": false,
+[36m(WorkerDict pid=282987)[0m   "use_sliding_window": false,
+[36m(WorkerDict pid=282987)[0m   "vocab_size": 151936
+[36m(WorkerDict pid=282987)[0m }
+[36m(WorkerDict pid=282987)[0m 
+[36m(WorkerDict pid=282987)[0m Qwen2ForCausalLM contains 494.03M parameters
+[36m(WorkerDict pid=282987)[0m wrap_policy: functools.partial(<function _or_policy at 0x7eebf01e9cf0>, policies=[functools.partial(<function transformer_auto_wrap_policy at 0x7eebf01e9bd0>, transformer_layer_cls={<class 'transformers.models.qwen2.modeling_qwen2.Qwen2DecoderLayer'>})])
+[36m(WorkerDict pid=283226)[0m Monkey patch _flash_attention_forward in transformers.integrations.flash_attention[32m [repeated 3x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/user-guides/configure-logging.html#log-deduplication for more options.)[0m
+[36m(WorkerDict pid=282987)[0m Actor use_remove_padding=True
+[36m(WorkerDict pid=283226)[0m WARNING 05-28 13:35:13 [cuda.py:93] To see benefits of async output processing, enable CUDA graph. Since, enforce-eager is enabled, async output processor cannot be used
+[36m(WorkerDict pid=283226)[0m Total steps: 1485, num_warmup_steps: 0[32m [repeated 3x across cluster][0m
+[36m(WorkerDict pid=283226)[0m Critic use_remove_padding=True
+[36m(WorkerDict pid=283226)[0m wrap_policy: functools.partial(<function _or_policy at 0x7f4ee4421cf0>, policies=[functools.partial(<function transformer_auto_wrap_policy at 0x7f4ee4421bd0>, transformer_layer_cls={<class 'transformers.models.qwen2.modeling_qwen2.Qwen2DecoderLayer'>})])
+[36m(WorkerDict pid=283226)[0m Actor use_remove_padding=True
+[36m(WorkerDict pid=283226)[0m WARNING 05-28 13:35:14 [utils.py:2522] Methods determine_num_available_blocks,device_config,get_cache_block_size_bytes,initialize_cache not implemented in <vllm.v1.worker.gpu_worker.Worker object at 0x7f4e0580acb0>
+[36m(WorkerDict pid=282987)[0m WARNING 05-28 13:35:15 [topk_topp_sampler.py:69] FlashInfer is not available. Falling back to the PyTorch-native implementation of top-p & top-k sampling. For the best performance, please install FlashInfer.
+Error executing job with overrides: ['data.train_files=/home/yuanyang/CS291A/data/parquet/file_level/433-enriched_claude3-7_train.parquet', 'data.val_files=/home/yuanyang/CS291A/data/parquet/file_level/433-enriched_claude3-7_val.parquet', 'data.train_batch_size=4', 'data.max_prompt_length=32768', 'data.max_response_length=2048', 'actor_rollout_ref.model.path=secmlr/SWE-BENCH-433-enriched-set-claude-3in1-localization-with-reasoning_qwen_code_0.5b_433_enriched', 'actor_rollout_ref.actor.optim.lr=1e-6', 'actor_rollout_ref.model.use_remove_padding=True', 'actor_rollout_ref.actor.ppo_mini_batch_size=4', 'actor_rollout_ref.actor.ppo_micro_batch_size_per_gpu=1', 'actor_rollout_ref.actor.fsdp_config.param_offload=True', 'actor_rollout_ref.actor.fsdp_config.optimizer_offload=True', 'actor_rollout_ref.model.enable_gradient_checkpointing=True', 'actor_rollout_ref.rollout.log_prob_micro_batch_size_per_gpu=1', 'actor_rollout_ref.rollout.tensor_model_parallel_size=1', 'actor_rollout_ref.rollout.name=vllm', 'actor_rollout_ref.rollout.gpu_memory_utilization=0.9', 'actor_rollout_ref.rollout.max_num_batched_tokens=35000', 'actor_rollout_ref.ref.log_prob_micro_batch_size_per_gpu=1', 'actor_rollout_ref.ref.fsdp_config.param_offload=True', 'critic.optim.lr=1e-5', 'critic.model.use_remove_padding=True', 'critic.model.path=secmlr/SWE-BENCH-433-enriched-set-claude-3in1-localization-with-reasoning_qwen_code_0.5b_433_enriched', 'critic.model.enable_gradient_checkpointing=True', 'critic.ppo_micro_batch_size_per_gpu=1', 'critic.model.fsdp_config.param_offload=True', 'critic.model.fsdp_config.optimizer_offload=True', 'algorithm.kl_ctrl.kl_coef=0.001', 'trainer.critic_warmup=0', 'trainer.logger=[console,wandb]', 'trainer.project_name=verl_CS291A', 'trainer.experiment_name=qwen-0.5b__433-enriched_claude3-7__file_level__finetuned__complex', 'trainer.n_gpus_per_node=2', 'trainer.nnodes=1', 'trainer.save_freq=100', 'trainer.test_freq=1', 'trainer.total_epochs=15', 'custom_reward_function.path=/home/yuanyang/CS291A/custom_reward.py', 'custom_reward_function.name=compute_score_complicated', 'reward_model.enable=False']
+Traceback (most recent call last):
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/yuanyang/CS291A/verl/verl/trainer/main_ppo.py", line 250, in <module>
+    main()
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+    _run_hydra(
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+    _run_app(
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+    run_and_report(
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/hydra/_internal/utils.py", line 223, in run_and_report
+    raise ex
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+    return func()
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+    lambda: hydra.run(
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 132, in run
+    _ = ret.return_value
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/hydra/core/utils.py", line 260, in return_value
+    raise self._return_value
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "/home/yuanyang/CS291A/verl/verl/trainer/main_ppo.py", line 64, in main
+    run_ppo(config)
+  File "/home/yuanyang/CS291A/verl/verl/trainer/main_ppo.py", line 80, in run_ppo
+    ray.get(runner.run.remote(config))
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/ray/_private/auto_init_hook.py", line 21, in auto_init_wrapper
+    return fn(*args, **kwargs)
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/ray/_private/client_mode_hook.py", line 103, in wrapper
+    return func(*args, **kwargs)
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/ray/_private/worker.py", line 2822, in get
+    values, debugger_breakpoint = worker.get_objects(object_refs, timeout=timeout)
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/ray/_private/worker.py", line 930, in get_objects
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(ValueError): [36mray::TaskRunner.run()[39m (pid=282528, ip=10.145.21.48, actor_id=a5cc0e837ea189b60a6a63ee06000000, repr=<main_ppo.TaskRunner object at 0x7f926811a020>)
+  File "/home/yuanyang/CS291A/verl/verl/trainer/main_ppo.py", line 186, in run
+    trainer.init_workers()
+  File "/home/yuanyang/CS291A/verl/verl/trainer/ppo/ray_trainer.py", line 738, in init_workers
+    self.actor_rollout_wg.init_model()
+  File "/home/yuanyang/CS291A/verl/verl/single_controller/ray/base.py", line 49, in func
+    output = ray.get(output)
+ray.exceptions.RayTaskError(ValueError): [36mray::WorkerDict.actor_rollout_init_model()[39m (pid=283226, ip=10.145.21.48, actor_id=04b570db92a83e194f6a298306000000, repr=<verl.single_controller.ray.base.WorkerDict object at 0x7f4e705980a0>)
+  File "/home/yuanyang/CS291A/verl/verl/single_controller/ray/base.py", line 459, in func
+    return getattr(self.worker_dict[key], name)(*args, **kwargs)
+  File "/home/yuanyang/CS291A/verl/verl/single_controller/base/decorator.py", line 465, in inner
+    return func(*args, **kwargs)
+  File "/home/yuanyang/CS291A/verl/verl/workers/fsdp_workers.py", line 514, in init_model
+    self.rollout, self.rollout_sharding_manager = self._build_rollout(trust_remote_code=self.config.model.get("trust_remote_code", False))
+  File "/home/yuanyang/CS291A/verl/verl/workers/fsdp_workers.py", line 375, in _build_rollout
+    rollout = vllm_rollout_cls(
+  File "/home/yuanyang/CS291A/verl/verl/workers/rollout/vllm_rollout/vllm_rollout_spmd.py", line 127, in __init__
+    self.inference_engine = LLM(
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/utils.py", line 1161, in inner
+    return fn(*args, **kwargs)
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/entrypoints/llm.py", line 247, in __init__
+    self.llm_engine = LLMEngine.from_engine_args(
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/engine/llm_engine.py", line 510, in from_engine_args
+    return engine_cls.from_vllm_config(
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/v1/engine/llm_engine.py", line 112, in from_vllm_config
+    return cls(vllm_config=vllm_config,
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/v1/engine/llm_engine.py", line 92, in __init__
+    self.engine_core = EngineCoreClient.make_client(
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/v1/engine/core_client.py", line 75, in make_client
+    return InprocClient(vllm_config, executor_class, log_stats)
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/v1/engine/core_client.py", line 198, in __init__
+    self.engine_core = EngineCore(*args, **kwargs)
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/v1/engine/core.py", line 71, in __init__
+    self._initialize_kv_caches(vllm_config)
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/v1/engine/core.py", line 133, in _initialize_kv_caches
+    kv_cache_configs = [
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/v1/engine/core.py", line 134, in <listcomp>
+    get_kv_cache_config(vllm_config, kv_cache_spec_one_worker,
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/v1/core/kv_cache_utils.py", line 699, in get_kv_cache_config
+    check_enough_kv_cache_memory(vllm_config, kv_cache_spec, available_memory)
+  File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/v1/core/kv_cache_utils.py", line 527, in check_enough_kv_cache_memory
+    raise ValueError("No available memory for the cache blocks. "
+ValueError: No available memory for the cache blocks. Try increasing `gpu_memory_utilization` when initializing the engine.
+[36m(TaskRunner pid=282528)[0m Unhandled error (suppress with 'RAY_IGNORE_UNHANDLED_ERRORS=1'): [36mray::WorkerDict.actor_rollout_init_model()[39m (pid=282987, ip=10.145.21.48, actor_id=07568fcb60bd4a9445d84b7806000000, repr=<verl.single_controller.ray.base.WorkerDict object at 0x7eeba64c1060>)
+[36m(TaskRunner pid=282528)[0m   File "/home/yuanyang/CS291A/verl/verl/single_controller/ray/base.py", line 459, in func
+[36m(TaskRunner pid=282528)[0m     return getattr(self.worker_dict[key], name)(*args, **kwargs)
+[36m(TaskRunner pid=282528)[0m   File "/home/yuanyang/CS291A/verl/verl/single_controller/base/decorator.py", line 465, in inner
+[36m(TaskRunner pid=282528)[0m     return func(*args, **kwargs)
+[36m(TaskRunner pid=282528)[0m   File "/home/yuanyang/CS291A/verl/verl/workers/fsdp_workers.py", line 514, in init_model
+[36m(TaskRunner pid=282528)[0m     self.rollout, self.rollout_sharding_manager = self._build_rollout(trust_remote_code=self.config.model.get("trust_remote_code", False))
+[36m(TaskRunner pid=282528)[0m   File "/home/yuanyang/CS291A/verl/verl/workers/fsdp_workers.py", line 375, in _build_rollout
+[36m(TaskRunner pid=282528)[0m     rollout = vllm_rollout_cls(
+[36m(TaskRunner pid=282528)[0m   File "/home/yuanyang/CS291A/verl/verl/workers/rollout/vllm_rollout/vllm_rollout_spmd.py", line 127, in __init__
+[36m(TaskRunner pid=282528)[0m     self.inference_engine = LLM(
+[36m(TaskRunner pid=282528)[0m   File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/utils.py", line 1161, in inner
+[36m(TaskRunner pid=282528)[0m     return fn(*args, **kwargs)
+[36m(TaskRunner pid=282528)[0m   File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/entrypoints/llm.py", line 247, in __init__
+[36m(TaskRunner pid=282528)[0m     self.llm_engine = LLMEngine.from_engine_args(
+[36m(TaskRunner pid=282528)[0m   File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/engine/llm_engine.py", line 510, in from_engine_args
+[36m(TaskRunner pid=282528)[0m     return engine_cls.from_vllm_config(
+[36m(TaskRunner pid=282528)[0m   File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/v1/engine/llm_engine.py", line 112, in from_vllm_config
+[36m(TaskRunner pid=282528)[0m     return cls(vllm_config=vllm_config,
+[36m(TaskRunner pid=282528)[0m   File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/v1/engine/llm_engine.py", line 92, in __init__
+[36m(TaskRunner pid=282528)[0m     self.engine_core = EngineCoreClient.make_client(
+[36m(TaskRunner pid=282528)[0m   File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/v1/engine/core_client.py", line 75, in make_client
+[36m(TaskRunner pid=282528)[0m     return InprocClient(vllm_config, executor_class, log_stats)
+[36m(TaskRunner pid=282528)[0m   File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/v1/engine/core_client.py", line 198, in __init__
+[36m(TaskRunner pid=282528)[0m     self.engine_core = EngineCore(*args, **kwargs)
+[36m(TaskRunner pid=282528)[0m   File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/v1/engine/core.py", line 71, in __init__
+[36m(TaskRunner pid=282528)[0m     self._initialize_kv_caches(vllm_config)
+[36m(TaskRunner pid=282528)[0m   File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/v1/engine/core.py", line 133, in _initialize_kv_caches
+[36m(TaskRunner pid=282528)[0m     kv_cache_configs = [
+[36m(TaskRunner pid=282528)[0m   File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/v1/engine/core.py", line 134, in <listcomp>
+[36m(TaskRunner pid=282528)[0m     get_kv_cache_config(vllm_config, kv_cache_spec_one_worker,
+[36m(TaskRunner pid=282528)[0m   File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/v1/core/kv_cache_utils.py", line 699, in get_kv_cache_config
+[36m(TaskRunner pid=282528)[0m     check_enough_kv_cache_memory(vllm_config, kv_cache_spec, available_memory)
+[36m(TaskRunner pid=282528)[0m   File "/home/yuanyang/anaconda3/envs/verl/lib/python3.10/site-packages/vllm/v1/core/kv_cache_utils.py", line 527, in check_enough_kv_cache_memory
+[36m(TaskRunner pid=282528)[0m     raise ValueError("No available memory for the cache blocks. "
+[36m(TaskRunner pid=282528)[0m ValueError: No available memory for the cache blocks. Try increasing `gpu_memory_utilization` when initializing the engine.
+[36m(WorkerDict pid=282987)[0m WARNING 05-28 13:35:14 [cuda.py:93] To see benefits of async output processing, enable CUDA graph. Since, enforce-eager is enabled, async output processor cannot be used
+[36m(WorkerDict pid=282987)[0m WARNING 05-28 13:35:15 [utils.py:2522] Methods determine_num_available_blocks,device_config,get_cache_block_size_bytes,initialize_cache not implemented in <vllm.v1.worker.gpu_worker.Worker object at 0x7eea5d43a980>
+[36m(WorkerDict pid=283226)[0m WARNING 05-28 13:35:15 [topk_topp_sampler.py:69] FlashInfer is not available. Falling back to the PyTorch-native implementation of top-p & top-k sampling. For the best performance, please install FlashInfer.
++ cd ..
